@@ -1,0 +1,11 @@
+This Project is a just a POC.
+
+This contains the following modules:
+
+
+1. SpringBoot Web Core Module
+2. Spring JPA
+3. H2 (in-memory Database)
+4. Lombok(Might not work with eclipse)
+5. HateOAS implementation
+6. Exception Handling
