@@ -9,6 +9,7 @@ import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDDocumentInformation;
 import org.apache.pdfbox.pdmodel.PDPage;
 import org.apache.pdfbox.pdmodel.PDPageContentStream;
+import org.apache.pdfbox.pdmodel.font.PDType1Font;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.BeanWrapper;
 import org.springframework.beans.BeanWrapperImpl;
@@ -58,28 +59,56 @@ public class UtilityClass {
 
 	public static boolean createPDFSample() throws IOException {
 		// Creating PDF document object
-		PDDocument document = new PDDocument();
+		// PDDocument document = new PDDocument();
 		// adding page to the document
-		PDPage first_page = new PDPage();
-		document.addPage(first_page);
-		// Setting Properties of the report
-		PDDocumentInformation pdfMeta = document.getDocumentInformation();
-		pdfMeta.setAuthor(Constants.AuthorName);
-		pdfMeta.setTitle(Constants.Title);
-		pdfMeta.setSubject(Constants.SubjectLine);
-		// saving the document
-		document.save(Constants.PdfPath);
+		/*
+		 * PDPage first_page = new PDPage(); document.addPage(first_page); // Setting
+		 * Properties of the report PDDocumentInformation pdfMeta =
+		 * document.getDocumentInformation(); pdfMeta.setAuthor(Constants.AuthorName);
+		 * pdfMeta.setTitle(Constants.Title); pdfMeta.setSubject(Constants.SubjectLine);
+		 * // saving the document document.save(Constants.PdfPath);
+		 */
 
 		// adding the content in the files
-		File file = new File(Constants.PdfPath);
-		PDDocument doc = PDDocument.load(file);
-		PDPage sourcePage = doc.getPage(0);
+		File file = new File(Constants.NewPdfPath);
+		PDDocument document = PDDocument.load(file);
+		PDPage firstPage = document.getPage(0);
 
-		PDPageContentStream contentStream = new PDPageContentStream(doc, sourcePage);
+		PDPageContentStream contentStream = new PDPageContentStream(document, firstPage);
+
+		contentStream.beginText();
+		contentStream.newLineAtOffset(50, 800);
+		
+		
+		String header = "Header :  ";
+		contentStream.setFont(PDType1Font.TIMES_BOLD, 12);
+		contentStream.showText(header);
+
+		String para = "This is the sample content.";
+		contentStream.setFont(PDType1Font.TIMES_ROMAN, 11);		
+		contentStream.showText(para);
+
+		String textMessage = "My sample";
+		String fontType=null;
+		methodToWriteDataHeader(contentStream , textMessage);
+		
+		contentStream.endText();
 		contentStream.close();
 		// closing the document
+		document.save(new File(Constants.NewPdfPath));
 		document.close();
 		return true;
 	}
+	
+	private static void methodToWriteDataHeader(PDPageContentStream contentStream, String textMessage) throws IOException
+	{
+		contentStream.setFont(PDType1Font.TIMES_BOLD, 12);
+		contentStream.showText(textMessage);
+	}
 
+	private static void methodToWriteDataContent(PDPageContentStream contentStream, String textMessage) throws IOException
+	{
+		contentStream.setFont(PDType1Font.TIMES_ROMAN, 11);
+		contentStream.showText(textMessage);
+	}
 }

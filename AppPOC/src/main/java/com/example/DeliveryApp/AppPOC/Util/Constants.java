@@ -7,5 +7,6 @@ public class Constants {
 	public static final String SubjectLine = "Reports";
 	// public static final String PdfPath = "C:/MyFolder/my_doc.pdf";
 	public static final String PdfPath = "target/SimpleForm.pdf";
+	public static final String NewPdfPath = "target/SamplePDF.pdf";
 
 }
